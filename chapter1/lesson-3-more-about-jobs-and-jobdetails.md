@@ -23,3 +23,43 @@ public class HelloJob implements Job {
 
 ### JobDataMap
 
+JobDataMap是JAVA Map接口的一个实现，并添加了一些实现用于方便地存取基本类型数据。它能够存储任意规模的，你想要由Job在执行时使用的数据。
+
+下面是一个在定义JobDetail时为JobDataMap添加数据的例子：
+```
+// define the job and tie it to our DumbJob class
+
+  JobDetail job = newJob(DumbJob.class)
+
+      .withIdentity("myJob", "group1") // name "myJob", group "group1"
+
+      .usingJobData("jobSays", "Hello World!")
+
+      .usingJobData("myFloatValue", 3.141f)
+
+      .build();
+```
+
+下面是一个任务执行时从JobDataMap获取数据的例子：
+
+```
+public class DumbJob implements Job {
+
+    public DumbJob() {
+    }
+
+    public void execute(JobExecutionContext context)
+      throws JobExecutionException
+    {
+      JobKey key = context.getJobDetail().getKey();
+
+      JobDataMap dataMap = context.getJobDetail().getJobDataMap();
+
+      String jobSays = dataMap.getString("jobSays");
+      float myFloatValue = dataMap.getFloat("myFloatValue");
+
+      System.err.println("Instance " + key + " of DumbJob says: " + jobSays + ", and val is: " + myFloatValue);
+    }
+  }
+```
+

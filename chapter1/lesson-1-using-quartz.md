@@ -30,4 +30,3 @@ SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 ```
 
 正如你所看到的，使用quartz是相当简单的。 在第2课中，我们将简要介绍作业和触发器以及Quartz的API，以便您可以更全面地了解这个示例。
-
